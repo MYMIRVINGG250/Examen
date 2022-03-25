@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 22-03-2022 a las 05:26:52
+-- Tiempo de generación: 25-03-2022 a las 05:00:57
 -- Versión del servidor: 8.0.17
 -- Versión de PHP: 7.3.10
 
@@ -25,24 +25,24 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `prueba`
+-- Estructura de tabla para la tabla `pelis`
 --
 
-CREATE TABLE `prueba` (
+CREATE TABLE `pelis` (
   `id` int(11) NOT NULL,
-  `val` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `gety` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC;
+  `titulo` varchar(250) NOT NULL,
+  `descripcion` varchar(250) NOT NULL,
+  `fecha` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Volcado de datos para la tabla `prueba`
+-- Volcado de datos para la tabla `pelis`
 --
 
-INSERT INTO `prueba` (`id`, `val`, `gety`) VALUES
-(1, 'raiz', NULL),
-(2, '1646158562240', 'raiz'),
-(3, '1646158660514', 'add'),
-(4, '1646158675697', 'raiz');
+INSERT INTO `pelis` (`id`, `titulo`, `descripcion`, `fecha`) VALUES
+(15, 'spiderman', 'el sorprendente hombre araña', '2002-04-12'),
+(16, 'the batman', 'el hombre de la noche', '2022-03-24'),
+(17, 'clitford', 'el perro gigante', '2022-05-26');
 
 -- --------------------------------------------------------
 
@@ -63,17 +63,18 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `username`, `email`, `pass`) VALUES
 (1, 'igarcia38', 'igarcia38@ucol.mx', '202cb962ac59075b964b07152d234b70'),
-(2, 'mymirvingg250', 'mymirvingg250@gmail.com', '4d5f1869aca2e8c1eb730f1e4cca14ad');
+(2, 'mymirvingg250', 'mymirvingg250@gmail.com', '4d5f1869aca2e8c1eb730f1e4cca14ad'),
+(3, 'igarcia38', 'igarcia38@ucol.mx', '25f9e794323b453885f5181f1b624d0b');
 
 --
 -- Índices para tablas volcadas
 --
 
 --
--- Indices de la tabla `prueba`
+-- Indices de la tabla `pelis`
 --
-ALTER TABLE `prueba`
-  ADD PRIMARY KEY (`id`) USING BTREE;
+ALTER TABLE `pelis`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `users`
@@ -86,16 +87,16 @@ ALTER TABLE `users`
 --
 
 --
--- AUTO_INCREMENT de la tabla `prueba`
+-- AUTO_INCREMENT de la tabla `pelis`
 --
-ALTER TABLE `prueba`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+ALTER TABLE `pelis`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

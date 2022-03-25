@@ -4,32 +4,67 @@ const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
 const md5 = require('md5')
-const { appConfig } = require('./lib/config')
-const connection = require('./db/mysql.js')
+const { appConfig } = require('./config/app')
+const connection = require('./config/db.js')
+
+global.sesion = false
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(express.static('public'));
 app.set('view engine', 'pug');
 
 app.get('/', function(req, res) {
-    res.render('index');
+    res.render('home');
+});
+
+app.post('/verify', function(req, res) {
+    res.send(sesion)
+});
+
+app.post('/off', function(req, res) {
+    sesion = false 
+    res.send(sesion)
+});
+
+app.post('/addpelicula', function(req, res) {
+    if(sesion == true){
+        connection.query('INSERT INTO pelis (titulo, descripcion, fecha) VALUES (?, ?, ?)',[req.body.titulo, req.body.descripcion, req.body.fecha], function(err, result, fields){
+            if(result.affectedRows == 1){
+               res.send(true)
+            }else{
+                res.send(false)
+            }
+        })
+    }
+});
+
+app.post('/getData', function(req, res) {
+    let sql = 'SELECT * FROM pelis'
+    
+    connection.query(sql , function(err, resp, fields){
+        if(resp.length){
+            res.send(resp)
+        }else{
+            res.redirect('/404')
+        }
+    })
 });
 
 app.get('/404', function(req, res) {
     res.render('404');
 });
 
+app.get('/login', function(req, res) {
+    res.render('login');
+});
+
 app.get('/registro', function(req, res) {
     res.render('registro');
 });
 
-app.get('/dash', function(req, res) {
-    console.log(req.body)
-});
-
 app.post('/registroUser', function(req, res) {
     if(req.body.registro == ""){
-        let pass  = md5(req.body.pass) //Ciframos la contraseña.
+        let pass  = md5(req.body.pass) //Ciframos la contraseÃ±a.
         //Realizamos la query del insert de los datos enviados.
         connection.query('INSERT INTO users (username, email, pass) VALUES (?, ?, ?)',[req.body.username, req.body.email, pass], function(err, result, fields){
             
@@ -54,7 +89,8 @@ app.post('/auth', function(req, res) {
         
         connection.query(sql , function(err, resp, fields){
             if(resp.length){
-                res.render('pelis', {correo: resp[0].email});
+                sesion = true;
+                res.redirect('/');
             }else{
                 res.redirect('/404')
             }
@@ -65,4 +101,4 @@ app.post('/auth', function(req, res) {
     }
 });
 
-app.listen(appConfig.port, ()=> console.log(`Puesto en marcha en puerto ${appConfig.port}`)) 
+app.listen(appConfig.port, ()=> console.log(`Puesto en marcha en puerto ${appConfig.port}`))
